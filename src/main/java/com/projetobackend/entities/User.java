@@ -16,16 +16,24 @@ public class User implements Serializable { //Ela dá capacidade da classe produ
     private long id;
     private String name;
     private String email;
+    private String phone;
     private String password;
 
-    public User(long id, String name, String email, String password) {
+    public User(long id, String name, String email, String phone, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.phone = phone;
         this.password = password;
     }
-
     public User() {
+    }
+
+    public User(String name, String email, String phone, String password) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
     }
 
     public long getId() {
@@ -52,6 +60,14 @@ public class User implements Serializable { //Ela dá capacidade da classe produ
         this.email = email;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -60,7 +76,8 @@ public class User implements Serializable { //Ela dá capacidade da classe produ
         this.password = password;
     }
 
-// tabela hashé uma tabela onde as informações são armazenadas conforme um “numero hash” calculado com base nas propriedades da informação.
+
+    // tabela hash é uma tabela onde as informações são armazenadas conforme um “numero hash” calculado com base nas propriedades da informação.
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
