@@ -1,5 +1,7 @@
 package com.projetobackend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -24,8 +26,11 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
 
     private Set<Category> categories = new HashSet<>();
-    //Conjunto Set garante que não tenha categorias repetidas
+    //Conjunto Set garante que não tenha repetições
     //Garante que a coleção não seja instanciada como nula, podendo ser vazia
+
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> items = new HashSet<>();
 
 
     public Product() {
@@ -80,6 +85,15 @@ public class Product {
 
     public Set<Category> getCategories() {
         return categories;
+    }
+
+    @JsonIgnore
+    public Set<Order> getOrders() {
+        Set<Order> set = new HashSet<>();
+        for (OrderItem x : items) {
+            set.add(x.getOrder());
+        }
+        return set;
     }
 
     @Override

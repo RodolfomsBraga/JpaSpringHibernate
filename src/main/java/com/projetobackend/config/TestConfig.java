@@ -1,14 +1,8 @@
 package com.projetobackend.config;
 
-import com.projetobackend.entities.Category;
+import com.projetobackend.entities.*;
 import com.projetobackend.entities.Enum.OrderStatus;
-import com.projetobackend.entities.Order;
-import com.projetobackend.entities.Product;
-import com.projetobackend.entities.User;
-import com.projetobackend.repositories.CategoryRepository;
-import com.projetobackend.repositories.OrderRepository;
-import com.projetobackend.repositories.ProductRepository;
-import com.projetobackend.repositories.UserRepository;
+import com.projetobackend.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +26,9 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -68,5 +65,18 @@ public class TestConfig implements CommandLineRunner {
 
         userRepository.saveAll(Arrays.asList(u1,u2));
         orderRepository.saveAll(Arrays.asList(o1,o2,o3));
+
+        OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+        OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+        OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+        OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+
+        orderItemRepository.saveAll(Arrays.asList(oi1,oi2,oi3,oi4));
+
+        Payment pay1 = new Payment(Instant.parse("2020-06-20T21:53:07Z"),o1);
+        o1.setPayment(pay1);
+
+        orderRepository.save(o1);
+
     }
 }
