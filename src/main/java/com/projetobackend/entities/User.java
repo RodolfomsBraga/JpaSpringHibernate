@@ -1,13 +1,15 @@
 package com.projetobackend.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(name = "tb_user")
 public class User implements Serializable { //Ela dá capacidade da classe produzir um formato em que os dados do objeto sejam usados de forma externa ao código
 
 
@@ -18,6 +20,11 @@ public class User implements Serializable { //Ela dá capacidade da classe produ
     private String email;
     private String phone;
     private String password;
+
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "client")
+    private List<Order> orders = new ArrayList<>();
 
     public User(long id, String name, String email, String phone, String password) {
         this.id = id;
@@ -76,6 +83,9 @@ public class User implements Serializable { //Ela dá capacidade da classe produ
         this.password = password;
     }
 
+    public List<Order> getOrders() {
+        return orders;
+    }
 
     // tabela hash é uma tabela onde as informações são armazenadas conforme um “numero hash” calculado com base nas propriedades da informação.
     @Override
